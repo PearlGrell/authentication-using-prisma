@@ -45,7 +45,7 @@ const sendMail = (_a) => __awaiter(void 0, void 0, void 0, function* () {
                 address: "noreply@sayble",
             },
             to,
-            subject: `${(template === 'registration') ? "Thank You For Registering" : "Forgot Your Password"}`,
+            subject: `${(template === 'registration') ? "Thank You For Registering" : (template === 'forgot_password') ? "Reset Password" : "Resend OTP"}`,
             html: updatedHtmlContent,
             date: new Date(),
             encoding: 'utf8',

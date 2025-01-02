@@ -24,7 +24,7 @@ type mail = {
 
 const sendMail = async ({ to, template, ...props }: mail) => {
     try {
-        const htmlFilePath = path.join('public', 'templates', mode[template]);
+        const htmlFilePath = path.resolve(__dirname, '..', 'public', 'templates', mode[template]);
         const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
 
         let updatedHtmlContent = Object.entries(props).reduce(

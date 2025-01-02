@@ -36,7 +36,6 @@ class UserModel {
             this.password = hash;
             const otp = Math.floor(100000 + Math.random() * 900000).toString();
             this.otp = otp;
-            console.log('Sending mail');
             yield (0, send_mail_1.sendMail)({
                 to: this.email,
                 template: 'registration',
@@ -72,7 +71,6 @@ class UserModel {
         return __awaiter(this, void 0, void 0, function* () {
             const otp = Math.floor(100000 + Math.random() * 900000).toString();
             this.otp = otp;
-            this.isVerified = 0;
             yield (0, send_mail_1.sendMail)({
                 to: this.email,
                 template: 'forgot_password',
