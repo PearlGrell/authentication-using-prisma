@@ -36,7 +36,7 @@ const mode = {
 const sendMail = (_a) => __awaiter(void 0, void 0, void 0, function* () {
     var { to, template } = _a, props = __rest(_a, ["to", "template"]);
     try {
-        const htmlFilePath = node_path_1.default.join('public', 'templates', mode[template]);
+        const htmlFilePath = node_path_1.default.resolve(__dirname, '..', 'public', 'templates', mode[template]);
         const htmlContent = node_fs_1.default.readFileSync(htmlFilePath, 'utf8');
         let updatedHtmlContent = Object.entries(props).reduce((content, [key, value]) => content.replace(new RegExp(`{{${key.toUpperCase()}}}`, 'g'), value), htmlContent);
         const mailOptions = {
