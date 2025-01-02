@@ -10,6 +10,7 @@ const app: Express = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(cors(settings.cors));
+app.use(express.static("public"));
 
 // User Routes
 app.get("/api/user/all", async (req, res) => await all({req, res}));

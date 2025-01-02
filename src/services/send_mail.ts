@@ -24,7 +24,7 @@ type mail = {
 
 const sendMail = async ({ to, template, ...props }: mail) => {
     try {
-        const htmlFilePath = path.resolve(__dirname, '..', 'public', 'templates', mode[template]);
+        const htmlFilePath = path.join(__dirname, '..', 'public', 'templates', mode[template]);
         const htmlContent = fs.readFileSync(htmlFilePath, 'utf8');
 
         let updatedHtmlContent = Object.entries(props).reduce(
@@ -56,7 +56,7 @@ const sendMail = async ({ to, template, ...props }: mail) => {
 
         const info = await transporter.sendMail(mailOptions);
     } catch (error) {
-        console.log(error);
+        throw new Error(error);
     }
 }
 

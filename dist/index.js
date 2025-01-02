@@ -22,6 +22,7 @@ const app = (0, express_1.default)();
 app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cors_1.default)(settings_1.settings.cors));
+app.use(express_1.default.static("public"));
 // User Routes
 app.get("/api/user/all", (req, res) => __awaiter(void 0, void 0, void 0, function* () { return yield (0, user_1.all)({ req, res }); }));
 app.get("/api/user/current", (req, res) => __awaiter(void 0, void 0, void 0, function* () { return yield (0, user_1.current)({ req, res }); }));
