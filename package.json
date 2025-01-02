@@ -1,0 +1,31 @@
+{
+  "name": "sayble-server",
+  "scripts": {
+    "start": "nodemon --exec ts-node src/index.ts",
+    "dev": "vercel dev",
+    "build": "npx tsc",
+    "db:generate": "drizzle-kit generate --config src/config/drizzle.config.ts",
+    "db:migrate": "drizzle-kit migrate --config src/config/drizzle.config.ts",
+    "db:studio": "drizzle-kit studio --config src/config/drizzle.config.ts"
+  },
+  "dependencies": {
+    "@libsql/client": "^0.14.0",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.7",
+    "drizzle-orm": "^0.38.3",
+    "express": "^4.21.2",
+    "jsonwebtoken": "^9.0.2",
+    "nodemailer": "^6.9.16"
+  },
+  "devDependencies": {
+    "@types/cors": "^2.8.17",
+    "@types/express": "^5.0.0",
+    "@types/node": "^22.10.2",
+    "@types/jsonwebtoken": "^9.0.7",
+    "@types/nodemailer": "^6.4.17",
+    "drizzle-kit": "^0.30.1",
+    "nodemon": "^3.1.9",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.7.2"
+  }
+}
