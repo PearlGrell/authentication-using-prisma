@@ -8,13 +8,9 @@ import { Context } from "../../types";
 
 export async function forgotPassword({ req, res }: Context) {
     try{
-        const token = req.headers.authorization?.split(" ")[1];
+        const { email } = req.body;
 
-        if(!token) return response.error(res, "Token is required", 400);
-
-        const id = await verify_token(token);
-
-        const userData =  await db.select().from(users).where(eq(users.id, id)).get();  
+        const userData =  await db.select().from(users).where(eq(users.email, email)).get();  
         
         if(!userData) return response.error(res, "User not found", 404);
 
@@ -22,7 +18,7 @@ export async function forgotPassword({ req, res }: Context) {
 
         await user.sendPasswordResetEmail();
 
-        await db.update(users).set(user).where(eq(users.id, id)).run();
+        await db.update(users).set(user).where(eq(users.email, email)).run();
 
         response.success(res, "OTP Sent Successfully", "message");
     }

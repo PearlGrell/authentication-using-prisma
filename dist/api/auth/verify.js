@@ -41,6 +41,7 @@ function verify(_a) {
                 return;
             }
             user.verifyUser();
+            user.loginUser();
             yield database_1.db.update(schema_1.users).set(user).where((0, drizzle_orm_1.eq)(schema_1.users.id, id)).run();
             response_1.response.success(res, "User Verified Successfully", "message");
         }

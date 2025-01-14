@@ -17,22 +17,17 @@ const database_1 = require("../../database/database");
 const schema_1 = require("../../database/schema");
 const drizzle_orm_1 = require("drizzle-orm");
 const response_1 = require("../../helpers/response");
-const token_1 = require("../../helpers/token");
 const user_1 = __importDefault(require("../../models/user"));
 function forgotPassword(_a) {
     return __awaiter(this, arguments, void 0, function* ({ req, res }) {
-        var _b;
         try {
-            const token = (_b = req.headers.authorization) === null || _b === void 0 ? void 0 : _b.split(" ")[1];
-            if (!token)
-                return response_1.response.error(res, "Token is required", 400);
-            const id = yield (0, token_1.verify_token)(token);
-            const userData = yield database_1.db.select().from(schema_1.users).where((0, drizzle_orm_1.eq)(schema_1.users.id, id)).get();
+            const { email } = req.body;
+            const userData = yield database_1.db.select().from(schema_1.users).where((0, drizzle_orm_1.eq)(schema_1.users.email, email)).get();
             if (!userData)
                 return response_1.response.error(res, "User not found", 404);
             const user = new user_1.default(userData);
             yield user.sendPasswordResetEmail();
-            yield database_1.db.update(schema_1.users).set(user).where((0, drizzle_orm_1.eq)(schema_1.users.id, id)).run();
+            yield database_1.db.update(schema_1.users).set(user).where((0, drizzle_orm_1.eq)(schema_1.users.email, email)).run();
             response_1.response.success(res, "OTP Sent Successfully", "message");
         }
         catch (e) {

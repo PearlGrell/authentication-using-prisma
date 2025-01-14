@@ -10,9 +10,9 @@ interface ValidatorResponse {
     value: boolean;
 }
 
-export function validator({ firstName, lastName, email, dob }: ValidatorParams) : ValidatorResponse {
+export function validator({ firstName, email, dob }: ValidatorParams) : ValidatorResponse {
 
-    if( !firstName || !lastName || !email || !dob){
+    if( !firstName || !email || !dob){
         return {
             error: new Error('Missing required fields'),
             value: false

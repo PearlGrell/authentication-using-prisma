@@ -34,6 +34,8 @@ export async function verify({req, res} : Context){
 
         user.verifyUser();
 
+        user.loginUser();
+
         await db.update(users).set(user).where(eq(users.id, id)).run();
 
         response.success(res, "User Verified Successfully", "message");

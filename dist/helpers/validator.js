@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.validator = validator;
-function validator({ firstName, lastName, email, dob }) {
-    if (!firstName || !lastName || !email || !dob) {
+function validator({ firstName, email, dob }) {
+    if (!firstName || !email || !dob) {
         return {
             error: new Error('Missing required fields'),
             value: false
