@@ -47,7 +47,7 @@ const verify_password = (password, hash, salt) => {
         return hash === hashVerify;
     }
     catch (e) {
-        return e;
+        throw new Error(e);
     }
 };
 exports.verify_password = verify_password;

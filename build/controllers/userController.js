@@ -103,13 +103,13 @@ function getUserByToken(req, res, next) {
 }
 function signUpUser(req, res, next) {
     return __awaiter(this, void 0, void 0, function* () {
-        const { name, email, password } = req.body;
-        if (!name || !email || !password) {
-            next(new Error("Name, email and password are required"));
+        const { name, email, dob } = req.body;
+        if (!name || !email || !dob) {
+            next(new Error("Name, email and dob are required"));
         }
-        const user = new userModel_1.default({ name, email, password });
+        const user = new userModel_1.default({ name, email, dob });
         yield database_1.default.user.create({
-            data: user.toJSON()
+            data: user
         }).then((val) => __awaiter(this, void 0, void 0, function* () {
             return (0, response_1.response)(res, 201, yield Token.token_create(user.id), "token");
         })).catch((error) => {
@@ -119,8 +119,8 @@ function signUpUser(req, res, next) {
                 if (target.includes("email")) {
                     next(new Error("Email is already in use."));
                 }
-                if (target.includes("phone")) {
-                    next(new Error("Phone number is already in use."));
+                if (target.includes("username")) {
+                    next(new Error("Username is already in use."));
                 }
             }
             next(error);
@@ -207,6 +207,11 @@ function loginUser(req, res, next) {
         if (!user.verifyPassword(password)) {
             next(new Error("Invalid password"));
         }
+        user.isLoggedIn = true;
+        yield database_1.default.user.update({
+            where: { email },
+            data: user.toJSON()
+        });
         return (0, response_1.response)(res, 200, "User logged in successfully", "message");
     });
 }
@@ -264,7 +269,7 @@ function updateUser(req, res, next) {
             next(new Error("Token is required"));
         }
         const id = yield Token.token_verify(token).catch(next);
-        const { name, phone, image, role, } = req.body;
+        const { name, image, dob, username } = req.body;
         const userDatabase = yield database_1.default.user.findUnique({
             where: { id }
         }).catch(next);
@@ -272,22 +277,24 @@ function updateUser(req, res, next) {
             next(new Error("User not found"));
         }
         const user = new userModel_1.default(userDatabase);
-        user.name = name !== null && name !== void 0 ? name : user.name;
-        user.phone = phone !== null && phone !== void 0 ? phone : user.phone;
-        user.image = image !== null && image !== void 0 ? image : user.image;
-        if (role) {
-            if (role === "ADMIN") {
-                user.role = "ADMIN";
-            }
-            else if (role === "USER") {
-                user.role = "USER";
-            }
-            else if (role === "EXPERT") {
-                user.role = "EXPERT";
-            }
-            else {
-                next(new Error("Invalid role"));
-            }
+        if (username) {
+            yield database_1.default.user.findUnique({
+                where: { username }
+            }).then((val) => {
+                if (val) {
+                    next(new Error("Username is already in use"));
+                }
+            }).catch(next);
+            user.username = username;
+        }
+        if (name) {
+            user.name = name;
+        }
+        if (image) {
+            user.image = image;
+        }
+        if (dob) {
+            user.dob = dob;
         }
         yield database_1.default.user.update({
             where: { id },
