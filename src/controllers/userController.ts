@@ -53,6 +53,14 @@ export async function signUpUser(req: Request, res: Response, next: NextFunction
     next(new Error("Name, email and dob are required"));
   }
 
+  if(RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$").test(email) === false){
+    next(new Error("Invalid email"));
+  }
+
+  if(RegExp("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$").test(dob) === false){
+    next(new Error("Invalid dob"));
+  }
+
   const user = new UserModel({name, email, dob});
 
   await db.user.create({
@@ -145,6 +153,10 @@ export async function loginUser(req: Request, res: Response, next: NextFunction)
     next(new Error("Email and password are required"));
   }
 
+  if(RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$").test(email) === false){
+    next(new Error("Invalid email"));
+  }
+
   const userDatabase = await db.user.findUnique({
     where: { email }
   }).catch(next);
@@ -170,6 +182,10 @@ export async function sendPasswordResetEmail(req: Request, res: Response, next: 
     const email = req.body.email;
     if (!email) {
       next(new Error("Email is required"));
+    }
+
+    if(RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$").test(email) === false){
+      next(new Error("Invalid email"));
     }
 
     const userDatabase = await db.user.findUnique({

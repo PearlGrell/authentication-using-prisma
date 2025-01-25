@@ -107,6 +107,12 @@ function signUpUser(req, res, next) {
         if (!name || !email || !dob) {
             next(new Error("Name, email and dob are required"));
         }
+        if (RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$").test(email) === false) {
+            next(new Error("Invalid email"));
+        }
+        if (RegExp("^[0-9]{4}-[0-9]{2}-[0-9]{2}T[0-9]{2}:[0-9]{2}:[0-9]{2}.[0-9]{3}Z$").test(dob) === false) {
+            next(new Error("Invalid dob"));
+        }
         const user = new userModel_1.default({ name, email, dob });
         yield database_1.default.user.create({
             data: user
@@ -197,6 +203,9 @@ function loginUser(req, res, next) {
         if (!email || !password) {
             next(new Error("Email and password are required"));
         }
+        if (RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$").test(email) === false) {
+            next(new Error("Invalid email"));
+        }
         const userDatabase = yield database_1.default.user.findUnique({
             where: { email }
         }).catch(next);
@@ -220,6 +229,9 @@ function sendPasswordResetEmail(req, res, next) {
         const email = req.body.email;
         if (!email) {
             next(new Error("Email is required"));
+        }
+        if (RegExp("^[a-zA-Z0-9+_.-]+@[a-zA-Z0-9.-]+$").test(email) === false) {
+            next(new Error("Invalid email"));
         }
         const userDatabase = yield database_1.default.user.findUnique({
             where: { email }
