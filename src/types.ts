@@ -1,43 +1,42 @@
-import { type Response, type Request } from 'express';
+import { CorsOptions } from "cors";
 
 export type Settings = {
-    port: number,
-    jwtSecret: string,
-    db: {
-        url: string,
-        auth_token: string
-    },
+    appname: string;
+    api_prefix: string;
+    server: {
+          port: number;
+          apiPrefix: string;
+    };
+    cors: CorsOptions,
+    auth: {
+          JWT_SECRET: string;
+    };
     mail: {
-        smtp_host: string,
-        smtp_port: number,
-        smtp_user: string,
-        smtp_pass: string
+            smtp_host: string;
+            smtp_port: number;
+            smtp_user: string;
+            smtp_pass: string;
     },
-    cors: {
-        origin: string,
-        methods: string,
-        allowedHeaders: string
-    }
-}
+    storage: {
+            id: string;
+            secret: string;
+            name: string;
+            endpoint: string;
+    };
+};
 
 export type User = {
-    id?: string,
-    firstName: string,
-    lastName: string,
-    username?: string,
-    email: string,
-    password?: string,
-    dob: string,
-    image?: string,
-    isVerified?: number,
-    isLoggedIn?: number,
-    otp?: string,
-    salt?: string,
-    createdAt?: string,
-    updatedAt?: string,
-}
-
-export type Context = {
-    req: Request,
-    res: Response
+    id?: string;
+    name: string;
+    username?: string;
+    email: string;
+    password?: string;
+    dob: Date;
+    image?: string;
+    isVerified?: boolean;
+    isLoggedIn?: boolean;
+    otp?: string;
+    salt?: string;
+    createdAt?: Date;
+    updatedAt?: Date;
 };

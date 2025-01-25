@@ -1,24 +1,35 @@
-import dotenv from 'dotenv';
-import { Settings } from '../types';
+import { Settings } from "../types";
+import dotenv from "dotenv";
 
-dotenv.config()
+dotenv.config();
 
 export const settings : Settings = {
-    port: parseInt(process.env.PORT!),
-    db:{
-        url: process.env.URL!,
-        auth_token: process.env.AUTH_TOKEN!
+    appname: process.env.APP_NAME!,
+    api_prefix: process.env.API_PREFIX!,
+    cors: {
+        origin: '*',
+        optionsSuccessStatus: 200,
+        methods: ['GET', 'POST', 'PUT', 'DELETE'],
+        allowedHeaders: ['Content-Type', 'Authorization'],
+        credentials: true,
     },
-    jwtSecret: process.env.JWT_SECRET!,
-    mail:{
+    server: {
+        port: parseInt(process.env.PORT!),
+        apiPrefix: process.env.API_PREFIX!
+    },
+    auth: {
+        JWT_SECRET: process.env.JWT_SECRET!
+    },
+    mail: {
         smtp_host: process.env.SMTP_HOST!,
         smtp_port: parseInt(process.env.SMTP_PORT!),
         smtp_user: process.env.SMTP_USER!,
         smtp_pass: process.env.SMTP_PASS!
     },
-    cors:{
-        origin: "*",
-        methods: "GET, POST, PUT, DELETE",
-        allowedHeaders: "Content-Type, Authorization"
-    }
-}
+    storage: {
+        id: process.env.STORAGE_BUCKET_ID!,
+        secret: process.env.STORAGE_BUCKET_SECRET!,
+        name: process.env.STORAGE_BUCKET_NAME!,
+        endpoint: process.env.STORAGE_BUCKET_ENDPOINT!
+    },
+};

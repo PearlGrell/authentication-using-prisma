@@ -1,5 +1,8 @@
-.vercel
-
 node_modules
-
+# Keep environment variables out of version control
 .env
+
+bun.lockb
+package-lock.json
+
+.vercel
