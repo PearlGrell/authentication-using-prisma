@@ -253,9 +253,6 @@ export async function updateUser(req: Request, res: Response, next: NextFunction
   if (dob) {
     user.dob = dob;
   }
-  if (username) {
-    user.username = username;
-  }
 
   await db.user.update({
     where: { id },
