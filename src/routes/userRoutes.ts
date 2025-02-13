@@ -1,5 +1,6 @@
 import { Router } from "express";
 import { deleteUser, getAllUsers, getUserById, getUserByToken, loginUser, resendOTP, resetPassword, sendPasswordResetEmail, signUpUser, updateUser, verifyUser } from "../controllers/userController";
+import valentineMe from "../controllers/valentineMeController";
 
 const router = Router();
 
@@ -17,5 +18,8 @@ router.post("/auth/login/reset", resetPassword);
 router.put("/user/update", updateUser);
 
 router.delete("/deleteme", deleteUser);
+
+
+router.post("/valentine-me", valentineMe);
 
 export default router;
